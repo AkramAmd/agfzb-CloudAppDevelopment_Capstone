@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-from models import *
+from . import models
 from . import restapis
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -27,9 +27,8 @@ def about(request):
 # Create a `contact` view to return a static contact page
 def contact(request):
     context = {}
-    if request.method == "GET":
+    if request.method == 'GET':
         return render(request, 'djangoapp/contact.html', context)
-
 # Create a `login_request` view to handle sign in request
 def login_request(request):
     context = {}
@@ -43,7 +42,7 @@ def login_request(request):
         if user is not None:
             # If user is valid, call login method to login current user
             login(request, user)
-            return redirect('djangoapp:index.html')
+            return redirect('/djangoapp/')
         else:
             # If not, return to login page again
             return render(request, 'djangoapp/user_login.html', context)
@@ -66,7 +65,7 @@ def registration_request(request):
     context = {}
     # If it is a GET request, just render the registration page
     if request.method == 'GET':
-        return render(request, 'djangoapp/user_registration.html', context)
+        return render(request, 'djangoapp/registration.html', context)
     # If it is a POST request
     elif request.method == 'POST':
         # Get user information from request.POST
@@ -89,9 +88,9 @@ def registration_request(request):
                                             password=password)
             # Login the user and redirect to course list page
             login(request, user)
-            return redirect("onlinecourse:popular_course_list")
+            return redirect("/djangoapp/")
         else:
-            return render(request, 'onlinecourse/user_registration.html', context)
+            return render(request, 'djangoapp/registration.html', context)
 
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
@@ -112,7 +111,7 @@ def get_dealer_details(request, dealer_id):
         # Get dealers from the URL
         context = {
             "dealer": restapis.get_dealers_from_cf(url_ds)[0],
-            "reviews": restapis.get_dealer_reviews_from_cf(url_r, dealer_id),
+            "reviews": restapis.get_dealer_reviews_by_id_from_cf(url_r, dealer_id),
         }
         return render(request, 'djangoapp/dealer_details.html', context)
 
