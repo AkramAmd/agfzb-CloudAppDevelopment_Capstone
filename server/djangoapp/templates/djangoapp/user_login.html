@@ -8,10 +8,44 @@
     <title>Document</title>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Car Dealerships</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/djangoapp">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/djangoapp/about">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/djangoapp/contact">Contact Us</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" style="color: rgb(43, 238, 238);" href="#">{{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  style="color: rgb(43, 238, 238);" href="logout/">Logout</a>
+            </li>
+            {% else %}
+                <li>
+                        <a style="text-decoration: none; color:white" class="btn btn-link" href="login">Sign In</a>
+                        <a style="text-decoration: none; color:white"class="btn btn-link" href="registration">Sign Up</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
     <form action="{% url 'djangoapp:login' %}" method="post">
         {% csrf_token %}
         <div class="container"> <!--Style root div with .container class -->
-          <h1>Login</h1>
+          <h1 style="padding-top:50px">Login</h1>
           <div class="form-group"> <!--Style second div with .form-group class -->
             <label for="username"><b>User Name</b></label>
             <input id="username" class = "form-control" type="text" placeholder="Enter User Name: " name="username" required> <!--Style input with .form-control class -->

@@ -7,7 +7,7 @@
 </head>
     <body>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Best Cars</a>
+        <a class="navbar-brand" href="#">Car Dealerships</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,8 +33,8 @@
                 </li>
                 {% else %}
                     <li>
-                            <a class="btn btn-link" href="/djangoapp/login/">Sign In</a>
-                            <a class="btn btn-link" href="/djangoapp/registration/">Sign Up</a>
+                            <a style="text-decoration: none; color:white" class="btn btn-link" href="login">Sign In</a>
+                            <a style="text-decoration: none; color:white" class="btn btn-link" href="registration">Sign Up</a>
                     </li>
                 {% endif %}
             </ul>
@@ -43,7 +43,7 @@
     <form action="{% url 'djangoapp:registration' %}" method="post">
         <div class="container"> <!--Style root div with .container class -->
           {% csrf_token %}
-          <h1>Sign Up</h1>
+          <h1 style="padding-top:50px">Sign Up</h1>
           <hr>
           <div class="form-group"> <!--Style second div with .form-group class -->
               <label for="username"><b>User Name</b></label>
@@ -59,7 +59,7 @@
                   {{ message }}
               </div>
               {% endif %}
-              <button class="btn btn-primary" type="submit">Sign up</button> <!--Style button with .btn and .btn-primary class -->
+              <button style="margin-top:15px" class="btn btn-primary" type="submit">Sign up</button> <!--Style button with .btn and .btn-primary class -->
           </div>
         </div>
       </form>
