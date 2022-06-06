@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
 #                                     auth=HTTPBasicAuth('apikey', api_key))
 def get_request(url, **kwargs):
-    print(kwargs)
+    #print(kwargs)
     print("GET from {} ".format(url))
     try:
         # Call get method of requests library with URL and parameters
@@ -22,18 +22,18 @@ def get_request(url, **kwargs):
         # If any error occurs
         print("Network exception occurred")
     status_code = response.status_code
-    print("With status {} ".format(status_code))
+    #print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
     return json_data
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
     json_obj = json_payload["review"]
-    print(kwargs)
+    #print(kwargs)
     try:
         response = requests.post(url, json=json_obj, params=kwargs)
     except:
         print("Something went wrong")
-    print (response)
+    #print (response)
     return response
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 
@@ -56,7 +56,7 @@ def get_dealers_from_cf(url, **kwargs):
                                    short_name=dealer["short_name"],
                                    st=dealer["st"], zip=dealer["zip"])
             results.append(dealer_obj)
-            print('-------------------------------------------------------')
+            #print('-------------------------------------------------------')
     return results
 
 
@@ -79,7 +79,7 @@ def get_dealer_reviews_by_id_from_cf(url, dealerId):
                 car_model = 'none', car_year= 'none', sentiment= "none")
                 
             review_obj.sentiment = analyze_review_sentiments(review_obj.review)
-            print(review_obj.sentiment)
+            #print(review_obj.sentiment)
                     
             results.append(review_obj)
 

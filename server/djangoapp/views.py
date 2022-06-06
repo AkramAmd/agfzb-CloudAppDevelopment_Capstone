@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-from . import models
 from . import restapis
+from .models import CarModel, CarMake, CarDealer, DealerReview
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -125,7 +125,7 @@ def add_review(request, dealer_id):
             "cars": CarModel.objects.all(),
             "dealer": restapis.get_dealers_from_cf(url)[0],
         }
-        print(context)
+        #print(context["cars"])
         return render(request, 'djangoapp/add_review.html', context)
     if request.method == "POST":
         form = request.POST
