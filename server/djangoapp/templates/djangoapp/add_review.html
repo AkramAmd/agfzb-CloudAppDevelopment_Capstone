@@ -11,15 +11,15 @@
 
 </head>
     <body>
-                       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Best Cars</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Car Dealerships</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/djangoapp">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/djangoapp/about">About Us</a>
@@ -27,22 +27,26 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/djangoapp/contact">Contact Us</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
-                    <li>
-                        <a class="btn btn-link" href="#">{{ user.first_name }}{{ user.username }}</a>
-                        <a class="btn btn-link" href="logout/">Logout</a>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: rgb(43, 238, 238);" href="#">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  style="color: rgb(43, 238, 238);" href="logout/">Logout</a>
                     </li>
                     {% else %}
                         <li>
-                               <a class="btn btn-link" href="/djangoapp/login/">Sign In</a>
-                                <a class="btn btn-link" href="/djangoapp/signup/">Sign Up</a>
+                                <a style="text-decoration: none; color:white" class="btn btn-link" href="/djangoapp/login/">Sign In</a>
+                                <a style="text-decoration: none; color:white" class="btn btn-link" href="/djangoapp/signup/">Sign Up</a>
                         </li>
                     {% endif %}
                 </ul>
             </div>
-        </nav>
+        </nav>                  
     <!--Add review form here -->
-    <main class="container">
+    {% comment %} <main class="container">
     <!--Add review form here -->
     {% for dealer in dealers %}
         <form action="/djangoapp/dealer/{{dealer.id}}/add_review/" method="post">
@@ -60,16 +64,66 @@
                 <label for="car">Select your car (model-make-year):</label>
                 <select name="car" id="car" class="form-select">
                     {% for car in cars %}
-                        <option selected value={{car.dealerid}}>{{car.name}}-{{car.car_make.name}}-{{ car.year|date:"Y" }}</option>
+                        <option selected value={{car.dealerid}}>{{car.name}}-{{car.carmake.name}}-{{ car.year|date:"Y" }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group" data-provide="datepicker">
-                <label for="purchasedate">Select your purchase date:</label>
-                <input class="form-control" type="text" name="purchasedate" id="purchasedate">
+            <div class="mb-3">
+                <label for="purchasedate"><b>Select Your Purchase Date: </b></label>
+                <input class="date-own form-control" style="width: 300px;" type="text" name="purchasedate" id="purchasedate">
             </div>
            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </main>
+    </main> {% endcomment %}
+    <div class="container-fluid">
+        <h3>Add a review about <b>{{dealer.full_name}}</b></h3>
+        <form action="/djangoapp/dealer/{{dealer.id}}/add_review/" method="post">
+            {% comment %} action="/djangoapp/dealer/{{dealer.id}}/add_review/ {% endcomment %}
+            <div class="form-group">
+    
+                  <div class="mb-3">
+                      <label for="content"><b>Enter the review content: </b></label>
+                      <textarea class="form-control" id="content" name="content" rows="2" required></textarea>
+                  </div>
+    
+                  <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+                      <label class="form-check-label" for="purchasecheck">
+                          Has purchased the car from {{dealer.full_name}} ?
+                      </label>
+                      <label class="text-muted">(select purchased car information below if checked)</label>
+                  </div>
+    
+                  <div class="mb-3">
+                      <label for="car"><b>Select your car:</b></label>
+                      <select name="car" id="car" class="form-select" required>
+                          {% for car in cars %}
+                          <option selected value={{car.id}}>{{car.carmake.name}}-{{car.name}}-{{car.type}}-{{ car.year|date:"Y" }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+    
+                  <div class="mb-3">
+                      <label for="purchasedate"><b>Select Your Purchase Date: </b></label>
+                      <input class="date-own form-control" style="width: 300px;" type="text" name="purchasedate" id="purchasedate">
+                  </div>
+    
+            </div>
+            {% csrf_token %}
+            <div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
     </body>
+    <script type="text/javascript">
+        $('.date-own').datepicker({
+           format: 'mm/dd/yyyy'
+         });
+   </script>
 </html>

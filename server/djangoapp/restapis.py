@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 #                                     auth=HTTPBasicAuth('apikey', api_key))
 def get_request(url, **kwargs):
     #print(kwargs)
-    print("GET from {} ".format(url))
+    #print("GET from {} ".format(url))
     try:
         # Call get method of requests library with URL and parameters
         response = requests.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
@@ -104,11 +104,11 @@ def analyze_review_sentiments(text):
         text=text,
         features= Features(sentiment= SentimentOptions())
     ).get_result()
-    print(json.dumps(response))
+    #print(json.dumps(response))
     sentiment_score = str(response["sentiment"]["document"]["score"])
     sentiment_label = response["sentiment"]["document"]["label"]
-    print(sentiment_score)
-    print(sentiment_label)
+    #print(sentiment_score)
+    #print(sentiment_label)
     sentimentresult = sentiment_label
     
     return sentimentresult

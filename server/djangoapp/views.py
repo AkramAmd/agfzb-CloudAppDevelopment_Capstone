@@ -53,7 +53,7 @@ def login_request(request):
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
     # Get the user object based on session id in request
-    print("Log out the user `{}`".format(request.user.username))
+    #print("Log out the user `{}`".format(request.user.username))
     # Logout user in the request
     logout(request)
     # Redirect user back to course list view
@@ -129,8 +129,9 @@ def add_review(request, dealer_id):
         return render(request, 'djangoapp/add_review.html', context)
     if request.method == "POST":
         form = request.POST
+        #print("post request method")
         review = {
-            "name": f"{request.user.first_name} {request.user.last_name}",
+            "name": f"{request.user.username}",
             "dealership": dealer_id,
             "review": form["content"],
             "purchase": form.get("purchasecheck"),
@@ -138,11 +139,12 @@ def add_review(request, dealer_id):
         if form.get("purchasecheck"):
             review["purchasedate"] = datetime.strptime(form.get("purchasedate"), "%m/%d/%Y").isoformat()
             car = CarModel.objects.get(pk=form["car"])
-            review["car_make"] = car.car_make.name
-            review["car_model"] = car.name
+            review["car_make"] = car.name
+            review["car_model"] = car.carmake.name
             review["car_year"]= car.year.strftime("%Y")
         json_payload = {"review": review}
-        URL = 'https://aaeb4f49.us-south.apigw.appdomain.cloud/reviews'
+        #print(json_payload)
+        URL = 'https://aaeb4f49.us-south.apigw.appdomain.cloud/dealership/post_review'
         restapis.post_request(URL, json_payload, dealerId=dealer_id)
     return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
 
